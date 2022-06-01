@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Circle Area</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="col" style="display: flex;align-items: center;flex-direction: column;">
+        <h1 class="row my-2">Circle</h1>
+        <div class="row my-2">
+            <input id="in" type="number" class="form-control" placeholder="Enter radius (cm)">
+            <button type="button" class="btn btn-primary mt-4" onclick="Area()">Calculate</button>
+            <button type="button" class="btn btn-outline-danger my-2" onclick="ClearText()">Clear</button>
+        </div>
+        <div class="row" id="result">
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+        integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"
+        integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
+        crossorigin="anonymous"></script>
+<script>
+    function Area() {
+        var circleRadius = document.getElementById('in').value;
+        if (circleRadius != null) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                    var result = JSON.parse(xmlHttp.response);
+                var area = result["area"];
+                document.getElementById("result").innerHTML = `<h4>Area= ${area} cm<sup>2</sup></h4>`;
+            }
+            xmlHttp.open("GET", `http://localhost:8080/area?radius=${circleRadius}`, false); // true for asynchronous
+            xmlHttp.send();
+        } else
+            alert("Please enter a valid value!");
+    }
+
+    function ClearText(){
+        document.getElementById('in').value="";
+        document.getElementById('result').innerHTML='';
+    }
+</script>
+</body>
+</html>
